@@ -1,0 +1,123 @@
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{client/fragments/layout}">
+<!-- kế thừa layout.html -->
+
+<section layout:fragment="content">
+
+
+    <!-- BREADCRUMB -->
+    <div id="breadcrumb" class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="breadcrumb-header">Checkout</h3>
+                    <ul class="breadcrumb-tree">
+                        <li><a href="#">Home</a></li>
+                        <li class="active">Checkout</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /BREADCRUMB -->
+
+    <!-- SECTION -->
+    <div class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+
+                <!-- Cart Items Section (Thay thế phần Billing Address cũ) -->
+                <div class="col-md-7">
+                    <!-- Cart Item 1 -->
+                    <div th:each = "product : ${cartDetails}" class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row" style="align-items: center;">
+                                <div class="col-sm-3">
+                                    <img
+                                         th:src="@{'/assets/images/product/' + ${product.getProduct().getImage()}}" class="img-responsive img-thumbnail">
+                                </div>
+                                <div class="col-sm-5">
+                                    <h4 th:text = "${product.getProduct().getName()}"class="text-primary">Tên sản phẩm 1</h4>
+                                    <p th:text="${#strings.length(product.getProduct().getShortDesc()) > 30} ? ${product.getProduct().getShortDesc().substring(0, 100)} + '...' : ${product.getProduct().getShortDesc()}" class="text-muted">
+                                        Mô tả ngắn
+                                    </p>
+                                    <p th:text = "${product.getProduct().getPrice()}" class="text-danger"><strong>$100.00</strong></p>
+                                </div>
+                                <div class="col-sm-4 text-center">
+                                    <div class="input-group input-group-sm" style="max-width: 120px; margin: 0 auto;">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">-</button>
+                    </span>
+                                        <input th:value="${product.getQuantity()}" type="text" class="form-control text-center">
+                                        <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">+</button>
+                    </span>
+                                    </div>
+                                    <a th:href="@{/cart/delete/{id}(id=${product.getId()})}"
+                                       onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng không?')"
+                                       class="btn btn-danger btn-sm"
+                                       style="margin-top: 10px;">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+
+                <!-- Order Details -->
+                <div class="col-md-5 order-details">
+                    <div class="section-title text-center">
+                        <h3 class="title">Your Order</h3>
+                    </div>
+                    <div class="order-summary">
+                        <div class="order-col">
+                            <div><strong>PRODUCT</strong></div>
+                            <div><strong>TOTAL</strong></div>
+                        </div>
+                        <div class="order-products">
+                            <div th:each="product : ${cartDetails}" class="order-col">
+                                <div><p th:text="${product.getQuantity()} + ' x ' + ${product.getProduct().getName()}"></p>
+                                 </div>
+                                <div>$980.00</div>
+                            </div>
+
+                        </div>
+                        <div class="order-col">
+                            <div>Shiping</div>
+                            <div><strong>FREE</strong></div>
+                        </div>
+                        <div class="order-col">
+                            <div><strong>TOTAL</strong></div>
+                            <div><strong class="order-total">$2940.00</strong></div>
+                        </div>
+                    </div>
+                    <a href="#" class="primary-btn order-submit">Place order</a>
+                </div>
+                <!-- /Order Details -->
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+
+
+
+</section>
+<script src="https://cdn.tailwindcss.com"></script>
+</html>
+

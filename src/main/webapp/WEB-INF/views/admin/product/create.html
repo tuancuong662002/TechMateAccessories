@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/admin/layout}">
+<!-- kế thừa layout.html -->
+
+<section layout:fragment="content">
+
+    <div class="app-body">
+        <div class="row justify-content-center">
+            <div class="col-lg-9 col-sm-12 col-12">
+                <div class="card shadow mb-4">
+                    <div class="card-body">
+                        <form method="post" th:action="@{/admin/product/store}" th:object="${product}" enctype="multipart/form-data">
+                            <!-- Product Name -->
+                            <div class="mb-3">
+                                <label class="form-label">Product Name</label>
+                                <input type="text" class="form-control" th:field="*{name}" />
+                                <div th:if="${#fields.hasErrors('name')}" class="text-danger small" th:errors="*{name}"></div>
+                            </div>
+
+                            <!-- Price -->
+                            <div class="mb-3">
+                                <label class="form-label">Price</label>
+                                <input type="number" class="form-control w-25" th:field="*{price}" min="0" step="0.01" required/>
+                                <div th:if="${#fields.hasErrors('price')}" class="text-danger small" th:errors="*{price}"></div>
+                            </div>
+                            <!-- Quantity -->
+                            <div class="mb-3">
+                                <label class="form-label">Quantity</label>
+                                <input type="number" class="form-control  w-25" th:field="*{quantity}" min="0"/>
+                                <div th:if="${#fields.hasErrors('quantity')}" class="text-danger small" th:errors="*{quantity}"></div>
+                            </div>
+                            <!-- Product target -->
+                            <div class="mb-3">
+                                <label class="form-label">target</label>
+                                <input type="text" class="form-control" th:field="*{target}" />
+                                <div th:if="${#fields.hasErrors('target')}" class="text-danger small" th:errors="*{target}"></div>
+                            </div>
+
+                            <!-- Image Upload -->
+                            <div class="mb-3">
+                                <label class="form-label">Product Image</label>
+                                <input class="form-control" type="file" id="formFile" name="fileImg" accept=".jpg, .png, .jpeg" />
+                            </div>
+                            <!-- Image Preview -->
+                            <div class="mb-3">
+                                <img id="previewImage" src="#" alt="Image Preview" style="max-width: 200px; display: none; border: 1px solid #ccc; padding: 5px; border-radius: 5px;" />
+                            </div>
+
+
+                            <div class="mb-3">
+                                <label class="form-label">Select Category</label>
+                                <select class="form-select w-25" th:field="*{category}" required>
+                                    <option disabled selected value="">-- Select Category --</option>
+                                    <option th:each="category : ${categories}"
+                                            th:value="${category.id}"
+                                            th:text="${category.name}">
+                                    </option>
+                                </select>
+                            </div>
+                            <!-- Short Description -->
+                            <div class="mb-3">
+                                <div class="col-xxl-12">
+                                    <div class="card shadow mb-4">
+                                        <div class="card-body">
+                                            <div class="m-0">
+                                                <label class="form-label">Short Description</label>
+                                                <textarea  th:field="*{shortDesc}" maxlength="255" class="form-control" rows="3"></textarea>
+                                                <div th:if="${#fields.hasErrors('shortDesc')}" class="text-danger small" th:errors="*{shortDesc}"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Short Description -->
+                            <div class="mb-3">
+                                <div class="col-xxl-12">
+                                    <div class="card shadow mb-4">
+                                        <div class="card-body">
+                                            <div class="m-0">
+                                                <label class="form-label">Detail  Description</label>
+<!--                                                <div id="editor" th:field="*{detailDesc}" maxlength="255" class="form-control" rows="3"></div>-->
+                                                <div id="quill-container" class="form-control" style="min-height: 150px;"></div>
+                                                <textarea id="editor" name="detailDesc" hidden th:field="*{detailDesc}"></textarea>
+                                                <div th:if="${#fields.hasErrors('detailDesc')}" class="text-danger small" th:errors="*{detailDesc}"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+</section>
+
+</html>

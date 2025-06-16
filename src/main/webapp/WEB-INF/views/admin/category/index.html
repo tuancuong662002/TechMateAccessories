@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/admin/layout}">
+<!-- kế thừa layout.html -->
+
+<section layout:fragment="content">
+    <!--    <div class="app-hero-header">-->
+    <!--        <h5 class="fw-light">Welcome Bradford,</h5>-->
+    <!--        <h3 class="fw-light mb-5">-->
+    <!--            <span>Home</span> / <span class="menu-text">Analytics</span>-->
+    <!--        </h3>-->
+    <!--    </div>-->
+    <div class="app-body">
+        <!-- Row start -->
+        <a class="btn btn-info mb-1 px-3 py-2" th:href="@{/admin/category/create}">
+            <i class="fs-5 bi bi-plus-square"></i> New product
+        </a>
+        <div class="row">
+            <div class="col-xxl-12">
+                <div class="card shadow mb-4">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table m-0">
+                                <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Short description</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+<!--                                <tr th:each = "product :  ${products}">-->
+<!--                                    <th scope="row">-->
+<!--                                        <img class="rounded-circle img-3x me-2"-->
+<!--                                             th:src="@{'/assets/images/product/' + ${product.image}}">-->
+<!--                                    </th>-->
+<!--                                    <td th:text="${product.name}"><a href="#" class="text-red">Alia</a></td>-->
+
+<!--                                    <td th:text="${product.price}">info@example.com</td>-->
+<!--                                    <td th:text="${product.quantity}">10/10/2022 4:30pm</td>-->
+<!--                                    <td th:text="${product.shortDesc}">10/10/2022 4:30pm</td>-->
+<!--                                    <td>-->
+<!--                                        <a onclick="return confirm('want to delete ?')" class="btn btn-danger btn-icon btn-sm mb-1" th:href="@{/admin/product/delete/{id}(id=${product.id})}"><i class="bi bi-trash"></i>-->
+<!--                                        </a>-->
+<!--                                        <a class="btn btn-info btn-icon btn-sm mb-1" th:href="@{/admin/product/edit/{id}(id=${product.id})}"><i class="bi bi-pencil"></i>-->
+<!--                                        </a>-->
+<!--                                    </td>-->
+<!--                                </tr>-->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Row end -->
+
+    </div>
+
+</section>
+
+</html>

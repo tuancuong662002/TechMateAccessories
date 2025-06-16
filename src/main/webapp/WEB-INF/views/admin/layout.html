@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bootstrap Gallery - Nyke Admin Template</title>
+
+    <!-- Meta -->
+    <meta name="description" content="Marketplace for Bootstrap Admin Dashboards" />
+    <meta name="author" content="Bootstrap Gallery" />
+    <link rel="canonical" href="https://www.bootstrap.gallery/">
+    <meta property="og:url" content="https://www.bootstrap.gallery">
+    <meta property="og:title" content="Admin Templates - Dashboard Templates | Bootstrap Gallery">
+    <meta property="og:description" content="Marketplace for Bootstrap Admin Dashboards">
+    <meta property="og:type" content="Website">
+    <meta property="og:site_name" content="Bootstrap Gallery">
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+    <link rel="shortcut icon" th:href="@{/assets/images/favicon.svg}" />
+
+    <!-- *************
+			************ CSS Files *************
+		************* -->
+    <link rel="stylesheet" th:href="@{/assets/fonts/bootstrap/bootstrap-icons.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/main.min.css}" />
+
+    <!-- *************
+			************ Vendor Css Files *************
+		************ -->
+
+    <!-- Scrollbar CSS -->
+    <link rel="stylesheet" th:href="@{/assets/vendor/overlay-scroll/OverlayScrollbars.min.css}" />
+</head>
+
+<body>
+
+<!-- Page wrapper start -->
+<div class="page-wrapper">
+
+    <!-- Main container start -->
+    <div class="main-container">
+
+        <!-- Sidebar wrapper start -->
+        <th:block th:replace="~{admin/fragments/nav :: nav}"/>
+        <!-- Sidebar wrapper end -->
+
+        <!-- App container starts -->
+        <div class="app-container">
+
+            <!-- App header starts -->
+            <div th:include="~{admin/fragments/header}"></div>
+            <!-- App header ends -->
+
+            <!-- App hero header starts -->
+            <div class="app-hero-header">
+                <h5 class="fw-light">Welcome Bradford,</h5>
+                <h3 class="fw-light mb-5">
+                    <span>Home</span> / <span class="menu-text">Analytics</span>
+                </h3>
+            </div>
+            <!-- App Hero header ends -->
+
+            <!-- App body starts -->
+            <main layout:fragment="content">
+                <!-- Nội dung riêng từng trang sẽ chèn vào đây -->
+            </main>
+            <!-- App body ends -->
+
+            <!-- App footer start -->
+            <div class="app-footer">
+                <span>© Bootstrap Gallery 2024</span>
+            </div>
+            <!-- App footer end -->
+
+        </div>
+        <!-- App container ends -->
+
+    </div>
+    <!-- Main container end -->
+
+</div>
+<!-- Page wrapper end -->
+
+<!-- *************
+        ************ JavaScript Files *************
+    ************* -->
+<!-- Required jQuery first, then Bootstrap Bundle JS -->
+<script th:src="@{/assets/js/jquery.min.js}"></script>
+<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+<!-- JavaScript xử lý preview -->
+<!-- Include the Quill library -->
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+<!-- Initialize Quill editor -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const quill = new Quill('#quill-container', {
+            theme: 'snow'
+        });
+
+        // Lấy nội dung cũ từ textarea và gán vào quill editor
+        const oldContent = document.getElementById('editor').value;
+        quill.root.innerHTML = oldContent;
+
+        // Khi submit form, cập nhật lại nội dung vào textarea
+        document.querySelector('form').addEventListener('submit', function () {
+            document.getElementById('editor').value = quill.root.innerHTML;
+        });
+    });
+</script>
+
+
+<script>
+    document.getElementById("formFile").addEventListener("change", function(event) {
+        const input = event.target;
+        const preview = document.getElementById("previewImage");
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = "block";
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            preview.src = "#";
+            preview.style.display = "none";
+        }
+    });
+</script>
+<!-- ************* Vendor JS Files ************* -->
+
+<!-- Overlay Scroll JS -->
+<script th:src="@{/assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js}"></script>
+<script th:src="@{/assets/vendor/overlay-scroll/custom-scrollbar.js}"></script>
+
+<!-- Apex Charts -->
+<script th:src="@{/assets/vendor/apex/apexcharts.min.js}"></script>
+<script th:src="@{/assets/vendor/apex/custom/dash1/sparkline.js}"></script>
+<script th:src="@{/assets/vendor/apex/custom/dash1/customers.js}"></script>
+<script th:src="@{/assets/vendor/apex/custom/dash1/channel.js}"></script>
+<script th:src="@{/assets/vendor/apex/custom/dash1/deals.js}"></script>
+<script th:src="@{/assets/vendor/apex/custom/dash1/demography.js}"></script>
+<script th:src="@{/assets/vendor/apex/custom/dash1/device.js}"></script>
+<script th:src="@{/assets/vendor/apex/custom/dash1/weekly-sales.js}"></script>
+
+<!-- Vector Maps -->
+<script th:src="@{/assets/vendor/jvectormap/jquery-jvectormap-2.0.5.min.js}"></script>
+<script th:src="@{/assets/vendor/jvectormap/world-mill-en.js}"></script>
+<script th:src="@{/assets/vendor/jvectormap/gdp-data.js}"></script>
+<script th:src="@{/assets/vendor/jvectormap/continents-mill.js}"></script>
+<script th:src="@{/assets/vendor/jvectormap/custom/world-map-markers2.js}"></script>
+
+<!-- Custom JS files -->
+<script th:src="@{/assets/js/custom.js}"></script>
+
+</body>
+
+</html>
