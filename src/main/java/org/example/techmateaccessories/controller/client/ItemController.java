@@ -20,7 +20,7 @@ public class ItemController {
            HttpSession session = request.getSession();
            String email = (String) session.getAttribute("email") ;
            int sum = 0 ;
-                sum    = this.productService.handleAddToCart(email, id);
+           sum    = this.productService.handleAddToCart(email, id);
            session.setAttribute("sum",sum);
            return "redirect:/";
        }

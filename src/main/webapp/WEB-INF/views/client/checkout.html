@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{client/fragments/layout}">
+<!-- kế thừa layout.html -->
+
+<section layout:fragment="content">
+
+    <!-- BREADCRUMB -->
+    <div id="breadcrumb" class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="breadcrumb-header">Checkout</h3>
+                    <ul class="breadcrumb-tree">
+                        <li><a href="#">Home</a></li>
+                        <li class="active">Checkout</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /BREADCRUMB -->
+
+    <!-- SECTION -->
+    <div class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <!-- Bọc toàn bộ row trong một thẻ form -->
+            <form action="/place-order" method="post">
+                <div class="row">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <!-- ===== PHẦN 1: THÔNG TIN THANH TOÁN (col-md-7) ===== -->
+                    <div class="col-md-7">
+                        <!-- Billing Details -->
+                        <div class="billing-details">
+                            <div class="section-title">
+                                <h3 class="title">Billing address</h3>
+                            </div>
+                            <!-- Đã có sẵn thuộc tính 'name', rất tốt! -->
+                            <div class="form-group">
+                                <input class="input" type="text" name="name" placeholder="Full Name" required>
+                            </div>
+                            <div class="form-group">
+                                <input class="input" type="text" name="address" placeholder="Address" required>
+                            </div>
+                            <div class="form-group">
+                                <input class="input" type="tel" name="phone" placeholder="Telephone" required>
+                            </div>
+                        </div>
+                        <!-- /Billing Details -->
+
+                        <!-- Order notes -->
+                        <div class="order-notes">
+                            <!-- Thêm thuộc tính 'name' cho textarea -->
+                            <textarea class="input" name="notes" placeholder="Order Notes"></textarea>
+                        </div>
+                        <!-- /Order notes -->
+                    </div>
+
+                    <!-- ===== PHẦN 2: CHI TIẾT ĐƠN HÀNG (col-md-5) ===== -->
+                    <div class="col-md-5 order-details">
+                        <div class="section-title text-center">
+                            <h3 class="title">Your Order</h3>
+                        </div>
+                        <div class="order-summary">
+                            <div class="order-col">
+                                <div><strong>PRODUCT</strong></div>
+                                <div><strong>TOTAL</strong></div>
+                            </div>
+
+                            <div class="order-products">
+                                <!-- SỬA ĐỔI QUAN TRỌNG: Thêm các input ẩn trong vòng lặp -->
+                                <!-- Dùng th:each với iterStat để lấy index của vòng lặp -->
+                                <div th:each="item, iterStat : ${cartDetails}" class="order-col">
+                                    <!-- Phần hiển thị cho người dùng (không đổi) -->
+                                    <div>
+                                        <p th:text="${item.getQuantity()} + ' x ' + ${item.getProduct().getName()}"></p>
+                                    </div>
+                                    <div th:text="'$' + ${#numbers.formatDecimal(item.getQuantity() * item.getProduct().getPrice(), 1, 'POINT', 2, 'COMMA')}"></div>
+
+                                    <!-- **PHẦN GỬI ĐI:** Tạo các input ẩn để gửi dữ liệu sản phẩm -->
+                                    <!-- Tên input được đặt theo quy tắc để Spring Boot có thể tự động map vào một List<Object> -->
+                                    <input type="hidden" th:name="'orderItems[' + ${iterStat.index} + '].productId'" th:value="${item.getProduct().getId()}" />
+                                    <input type="hidden" th:name="'orderItems[' + ${iterStat.index} + '].quantity'" th:value="${item.getQuantity()}" />
+                                </div>
+                            </div>
+
+                            <div class="order-col">
+                                <div>Shipping</div>
+                                <div><strong>FREE</strong></div>
+                            </div>
+                            <div class="order-col">
+                                <div><strong>TOTAL</strong></div>
+                                <!-- Phần hiển thị tổng tiền cho người dùng -->
+                                <div><strong class="order-total" th:text="'$' + ${#numbers.formatDecimal(totalPrice, 1, 'POINT', 2, 'COMMA')}"></strong></div>
+                            </div>
+                        </div>
+
+                        <!-- **PHẦN GỬI ĐI:** Tạo input ẩn để gửi tổng giá trị đơn hàng -->
+                        <input type="hidden" name="totalPrice" th:value="${totalPrice}">
+
+                        <!-- THAY THẾ thẻ <a> bằng <button type="submit"> -->
+                        <button type="submit" class="primary-btn order-submit">Place order</button>
+
+                    </div>
+                    <!-- /Order Details -->
+                </div>
+                <!-- /row -->
+            </form>
+            <!-- /form -->
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /SECTION -->
+
+</section>
+<script src="https://cdn.tailwindcss.com"></script>
+</html>

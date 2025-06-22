@@ -11,6 +11,49 @@ public class Order {
        @GeneratedValue(strategy = GenerationType.IDENTITY)
        private long id ;
        private double totalPrice ;
+       private String address;
+       private String phone;
+       private String name;
+       private String status ;
+       public String getStatus() {
+              return status;
+       }
+
+       public void setStatus(String status) {
+              this.status = status;
+       }
+
+       public String getName() {
+              return name;
+       }
+
+       public void setName(String name) {
+              this.name = name;
+       }
+
+       public String getAddress() {
+              return address;
+       }
+
+       public void setAddress(String address) {
+              this.address = address;
+       }
+
+       public String getPhone() {
+              return phone;
+       }
+
+       public void setPhone(String phone) {
+              this.phone = phone;
+       }
+
+       public void setUser(User user) {
+              this.user = user;
+       }
+
+       public void setOrderDetails(List<OrderDetail> orderDetails) {
+              this.orderDetails = orderDetails;
+       }
 
        public List<OrderDetail> getOrderDetails() {
               return orderDetails;

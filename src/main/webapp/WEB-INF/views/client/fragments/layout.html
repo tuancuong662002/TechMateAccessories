@@ -240,6 +240,104 @@
     <!-- /bottom footer -->
 </footer>
 <!-- /FOOTER -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Hàm định dạng tiền tệ
+        const formatMoney = (number) => `$${number.toFixed(2)}`;
+
+        // Gắn sự kiện cho các nút
+        document.querySelectorAll('.btn-increase').forEach(btn => {
+            btn.addEventListener('click', () => updateQuantity(btn, 1));
+        });
+
+        document.querySelectorAll('.btn-decrease').forEach(btn => {
+            btn.addEventListener('click', () => updateQuantity(btn, -1));
+        });
+
+        function updateQuantity(button, change) {
+            const input = button.closest('.input-group').querySelector('.quantity-input');
+            const price = parseFloat(button.dataset.price);
+
+            let quantity = parseInt(input.value);
+            quantity = Math.max(1, quantity + change);
+            input.value = quantity;
+
+            const itemRow = button.closest('.row');
+            const itemTotalElement = itemRow.querySelector('.item-total');
+            if (itemTotalElement) {
+                itemTotalElement.textContent = formatMoney(quantity * price);
+            }
+
+            // Gọi hàm cập nhật lại toàn bộ phần tóm tắt đơn hàng
+            updateOrderSummary();
+        }
+
+        function updateOrderSummary() {
+            const orderForm = document.querySelector('.order-details form'); // Lấy form
+            const orderProductsContainer = orderForm.querySelector('.order-products');
+            const orderTotalElement = orderForm.querySelector('.order-total');
+            let grandTotal = 0;
+
+            // Xóa tất cả các mục sản phẩm cũ trong phần tóm tắt
+            orderProductsContainer.innerHTML = '';
+
+            // Lặp qua từng sản phẩm trong giỏ hàng (phần bên trái)
+            // Thêm 'index' để tạo tên input đúng chuẩn
+            document.querySelectorAll('.col-md-7 .panel-body').forEach((itemPanel, index) => {
+                const name = itemPanel.querySelector('h4.text-primary').innerText;
+                const quantity = parseInt(itemPanel.querySelector('.quantity-input').value);
+                const price = parseFloat(itemPanel.querySelector('.btn-increase').dataset.price);
+                const productId = itemPanel.querySelector('.btn-increase').dataset.id; // Lấy ID từ nút
+
+                const itemSubtotal = quantity * price;
+                grandTotal += itemSubtotal;
+
+                // **PHẦN SỬA ĐỔI QUAN TRỌNG**
+                // Tạo một div mới để chứa cả phần hiển thị và input ẩn
+                const orderRowWrapper = document.createElement('div');
+                orderRowWrapper.classList.add('order-col');
+
+                // 1. Tạo và thêm phần hiển thị
+                orderRowWrapper.innerHTML = `
+                    <div><p>${quantity} x ${name}</p></div>
+                    <div>${formatMoney(itemSubtotal)}</div>
+                `;
+
+
+
+                // 2. Tạo và thêm input ẩn cho productId
+                const productIdInput = document.createElement('input');
+                productIdInput.type = 'hidden';
+                // Đặt tên theo chuẩn để Spring Boot binding vào List
+                productIdInput.name = `orderItems[${index}].productId`;
+                productIdInput.value = productId;
+                orderRowWrapper.appendChild(productIdInput);
+
+                // 3. Tạo và thêm input ẩn cho quantity
+                const quantityInput = document.createElement('input');
+                quantityInput.type = 'hidden';
+                quantityInput.name = `orderItems[${index}].quantity`;
+                quantityInput.value = quantity;
+                orderRowWrapper.appendChild(quantityInput);
+
+                // Thêm toàn bộ wrapper vào container
+                orderProductsContainer.appendChild(orderRowWrapper);
+            });
+            const totalPriceInput = document.getElementById('totalPriceInput');
+            if (totalPriceInput) {
+                totalPriceInput.value = grandTotal.toFixed(2);
+            }
+            // Cập nhật tổng tiền cuối cùng
+            if (orderTotalElement) {
+                orderTotalElement.textContent = formatMoney(grandTotal);
+            }
+        }
+
+        // Gọi lần đầu khi trang tải xong để tính toán và hiển thị chính xác
+        updateOrderSummary();
+    });
+</script>
+
 
 <!-- jQuery Plugins -->
 <script th:src="@{/client/js/jquery.min.js}"></script>

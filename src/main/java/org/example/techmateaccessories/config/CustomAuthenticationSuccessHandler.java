@@ -47,10 +47,9 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             session.setAttribute("email", user.getEmail());
             int sum = 0  ;
             if(user.getCart() == null )sum =  0  ;
-            else sum  =  user.getCart().getSum() ;
+            else sum  =  user.getCart().getSum();
             session.setAttribute("sum" , sum);
         }
-
         response.sendRedirect(redirectUrl);
     }
 }

@@ -14,5 +14,7 @@ public interface CartDetailRepository   extends JpaRepository<CartDetail, Long> 
        @Query("SELECT cd FROM CartDetail cd WHERE cd.cart = :cart AND cd.product = :product")
        CartDetail findByCartAndProduct(@org.springframework.data.repository.query.Param("cart") Cart cart,
                                        @org.springframework.data.repository.query.Param("product") Product product);
+       int countByCart(Cart cart);
+
 
 }

@@ -36,8 +36,8 @@ public class User {
     private Role role ;
     @OneToMany(mappedBy = "user")
     private List<Order> orders ;
-    @OneToOne(mappedBy = "user")
-    private Cart cart  ;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Cart cart;
 
     public Cart getCart() {
         return cart;
